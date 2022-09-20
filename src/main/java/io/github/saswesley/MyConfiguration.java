@@ -1,14 +1,15 @@
 package io.github.saswesley;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
 
-@Configuration
+@Development
 public class MyConfiguration {
-
-	@Bean(name = "aplicationName")
-	public String applicationName() {
-		return "Sistema de Vendas";
+	@Bean
+	public CommandLineRunner executar() {
+		return args ->{
+			System.out.println("RODANDO CONFIGURAÇÃO DE DESENVOLVIMENTO");
+		};
 	}
 }
