@@ -1,6 +1,8 @@
 package io.github.saswesley;
 
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +12,36 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import io.github.saswesley.domain.entity.Cliente;
-import io.github.saswesley.domain.repository.Clientes;
+import io.github.saswesley.domain.entity.Pedido;
+import io.github.saswesley.domain.repository.ClientesRepo;
+import io.github.saswesley.domain.repository.PedidosRepo;
 
 @SpringBootApplication
 public class VendasApplication {
 	
 	@Bean
-	public CommandLineRunner init(@Autowired Clientes clientes) {
+	public CommandLineRunner init(
+			@Autowired ClientesRepo clientes, 
+			@Autowired PedidosRepo pedidos
+	) {
+		
 		return args -> {
 			System.out.println("Salvando clientes");
-			clientes.save (new Cliente("Wesley"));
-			clientes.save(new Cliente("Outro cliente"));
+			Cliente wes = new Cliente ("Wes");
+			clientes.save(wes);
 			
-			List<Cliente> result = clientes.encontrarnome("Wesley");
-			result.forEach(System.out::println);
 			
+			Pedido p = new Pedido();
+			p.setCliente(wes);
+			p.setDataPedido(LocalDate.now());
+			p.setTotal(BigDecimal.valueOf(100));
+			
+			pedidos.save(p);
+			
+//			Cliente cliente = clientes.findClienteFetchPedidos(wes.getId());
+//			System.out.println(cliente);
+//			System.out.println(cliente.getPedidos());
+			pedidos.findByCliente(wes).forEach(System.out::println);
 			
 			
 //			System.out.println("Atualizando clientes");

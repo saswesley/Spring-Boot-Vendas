@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import io.github.saswesley.domain.entity.Cliente;
 
 
-public interface Clientes extends JpaRepository<Cliente, Integer> {
+public interface ClientesRepo extends JpaRepository<Cliente, Integer> {
 
 	@Query(value = " SELECT c FROM Cliente c WHERE c.nome LIKE :nome")
 	List<Cliente> encontrarnome(@Param ("nome") String nome);
@@ -21,11 +21,12 @@ public interface Clientes extends JpaRepository<Cliente, Integer> {
 	
 	List<Cliente> findByNomeOrIdOrderById(String nome, Integer id);
 	
-	boolean existsByNome (String nome);
-	
 	@Query(" DELETE FROM Cliente c WHERE c.nome = :nome")
 	@Modifying
 	void deleteByNome(String nome);
 	
-			
+	boolean existsByNome (String nome);
+	
+	@Query("SELECT c FROM Cliente c LEFT JOIN FETCH c.pedidos where c.id =:id ")
+	Cliente findClienteFetchPedidos(@Param("id") Integer id);
 }
