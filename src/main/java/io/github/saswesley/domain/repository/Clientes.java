@@ -1,4 +1,4 @@
-package io.github.saswesley.domain.repositorio;
+package io.github.saswesley.domain.repository;
 
 
 import java.util.List;

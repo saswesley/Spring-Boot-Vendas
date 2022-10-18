@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import io.github.saswesley.domain.entity.Cliente;
-import io.github.saswesley.domain.repositorio.Clientes;
+import io.github.saswesley.domain.repository.Clientes;
 
 @SpringBootApplication
 public class VendasApplication {
