@@ -14,14 +14,7 @@ import io.github.saswesley.domain.repository.ClientesRepo;
 @SpringBootApplication
 public class VendasApplication {
 	
-	@Bean
-	public CommandLineRunner comandLineRunner(@Autowired ClientesRepo clientesrepo) {
-		return args -> {
-			Cliente c = new Cliente (null, "Wesley");
-			clientesrepo.save(c);
-		};
-	}
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(VendasApplication.class, args);
 	}
