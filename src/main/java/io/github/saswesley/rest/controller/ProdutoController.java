@@ -70,7 +70,7 @@ public class ProdutoController {
 				.matching()
 				.withIgnoreCase()
 				.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-		Example example = Example.of(filtro, matcher);
+		Example<Produto> example = Example.of(filtro, matcher);
 		return produtosrepo.findAll(example);
 		
 	}
