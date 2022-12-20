@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.apache.catalina.startup.ClassLoaderFactory.Repository;
+
 import org.springframework.stereotype.Service;
 
 import io.github.saswesley.domain.entity.Cliente;

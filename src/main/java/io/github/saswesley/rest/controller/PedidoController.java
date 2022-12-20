@@ -54,7 +54,7 @@ public class PedidoController {
 					new ResponseStatusException(NOT_FOUND, "Pedido não encontrado"));
 	}
 	
-	@PatchMapping("{id}")//Serve para atualizar somente um campo
+	@PatchMapping("{id}")  //Serve para atualizar somente um campo
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateStatus(@PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto) {
 		
