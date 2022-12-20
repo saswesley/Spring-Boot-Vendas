@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import io.github.saswesley.domain.entity.ItemPedido;
 import io.github.saswesley.domain.entity.Pedido;
 import io.github.saswesley.domain.enums.StatusPedido;
@@ -40,7 +42,7 @@ public class PedidoController {
 	
 	@PostMapping
 	@ResponseStatus(CREATED)
-	public Integer save(@RequestBody PedidoDTO dto ) {
+	public Integer save(@RequestBody @Valid PedidoDTO dto ) {
 		Pedido pedido = pedidoservice.salvar(dto);
 		return pedido.getId();
 	}
@@ -56,7 +58,7 @@ public class PedidoController {
 	
 	@PatchMapping("{id}")  //Serve para atualizar somente um campo
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateStatus(@PathVariable Integer id, @RequestBody AtualizacaoStatusPedidoDTO dto) {
+	public void updateStatus(@PathVariable Integer id, @RequestBody @Valid AtualizacaoStatusPedidoDTO dto) {
 		
 		String novoStatus = dto.getNovoStatus();
 		pedidoservice.atualizaStatus(id, StatusPedido.valueOf(novoStatus));
