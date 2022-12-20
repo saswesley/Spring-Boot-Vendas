@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,10 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import io.github.saswesley.domain.enums.StatusPedido;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 
 @Data
@@ -42,6 +45,10 @@ public class Pedido {
 	
 	@Column(name = "total", precision = 20, scale = 2)
 	private BigDecimal total;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private StatusPedido status;
 	
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itens;
