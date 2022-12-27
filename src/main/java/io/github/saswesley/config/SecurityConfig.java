@@ -1,5 +1,6 @@
 package io.github.saswesley.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,8 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import io.github.saswesley.service.impl.UsuarioServiceImpl;
+
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	@Autowired
+	private UsuarioServiceImpl usuarioService;
 	
 	@Bean
 	public PasswordEncoder passwordEnconder() {	
@@ -18,11 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-					.passwordEncoder(passwordEnconder())
-					.withUser("Fulano")
-					.password(passwordEnconder().encode("123"))
-					.roles("USER");
+		auth
+			.userDetailsService(usuarioService)
+			.passwordEncoder(passwordEnconder());
 	}
 	
 	@Override
@@ -31,10 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.csrf().disable()
 			.authorizeRequests()
 				.antMatchers("/api/clientes/**")
-					.authenticated()
-					//.hasRole("USER");
+					.hasAnyRole("USER", "ADMIN")
+				.antMatchers("/api/pedidos/**")
+					.hasAnyRole("USER", "ADMIN")
+				.antMatchers("/api/produto/**")
+					.hasRole("ADMIN")
 			.and()
-				.formLogin(); //É possivel colocar um formulário "/meu-login.html"
+				.httpBasic();
 		;	
 	}
 	
