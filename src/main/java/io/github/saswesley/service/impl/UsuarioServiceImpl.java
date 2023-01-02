@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import io.github.saswesley.domain.entity.Usuario;
 import io.github.saswesley.domain.repository.UsuarioRepo;
+import io.github.saswesley.exception.SenhaInvalidaException;
 
 @Service
 public class UsuarioServiceImpl implements UserDetailsService{
@@ -28,6 +29,14 @@ public class UsuarioServiceImpl implements UserDetailsService{
 		return usuariorepo.save(usuario);
 	}
 	
+	public UserDetails autenticar (Usuario usuario) {
+		UserDetails user = loadUserByUsername(usuario.getLogin());
+		boolean senhasBatem = encoder.matches(usuario.getSenha(), user.getPassword());
+		if (senhasBatem) {
+			return user;
+		}
+		throw new SenhaInvalidaException();
+	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

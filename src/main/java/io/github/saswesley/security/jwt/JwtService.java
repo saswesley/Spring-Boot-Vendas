@@ -15,7 +15,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
+import io.github.saswesley.VendasApplication;
 import io.github.saswesley.domain.entity.Usuario;
 
 @Service
@@ -56,7 +56,7 @@ public class JwtService {
 				LocalDateTime data = 
 						dataExpiracao.toInstant()
 												.atZone(ZoneId.systemDefault()).toLocalDateTime();
-				return LocalDateTime.now().isAfter(data);
+				return !LocalDateTime.now().isAfter(data);
 		} catch (Exception e) {
 			return false;
 		}
@@ -66,17 +66,5 @@ public class JwtService {
 		return (String) obterClaims(token).getSubject();
 	}
 	
-	public static void main (String[] args) {
-		ConfigurableApplicationContext contexto = SpringApplication.run(VendasApplication.class);
-		JwtService service = contexto.getBean(JwtService.class);
-		Usuario usuario = Usuario.builder().login("Wesley").build();
-		String token = service.gerarToken(usuario);
-		System.out.print(token);
-		
-		boolean isTokenValido = service.tokenValido(token);
-		System.out.println("Token valido? " + isTokenValido);
-		
-		System.out.println(service.obterLoginUsuario(token));
-	}
 		
 }
