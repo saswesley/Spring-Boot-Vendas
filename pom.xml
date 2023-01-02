@@ -5,7 +5,8 @@
 	<groupId>io.github.saswesley</groupId>
 	<artifactId>vendas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
+	<packaging>${project.packaging}</packaging>
+	
 	<properties>
 		<java.version>1.8</java.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -18,6 +19,29 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
 	</parent>
+	
+	<profiles>
+		
+		<profile>
+			<activation>
+					<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>desenvolvimento</id>
+			<properties>
+				<project.packaging>jar</project.packaging>
+				<tomcat.scope>compile</tomcat.scope>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>producao</id>
+			<properties>
+				<project.packaging>war</project.packaging>
+				<tomcat.scope>provided</tomcat.scope>
+			</properties>
+		</profile>
+		
+	</profiles>
 
 	<dependencies>
 		<dependency>
@@ -78,6 +102,12 @@
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-swagger-ui</artifactId>
 		    <version>2.9.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>${tomcat.scope}</scope>
 		</dependency>
 
 	</dependencies>
