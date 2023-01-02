@@ -20,10 +20,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 import io.github.saswesley.domain.entity.Cliente;
 import io.github.saswesley.domain.repository.ClientesRepo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 
 @RestController
 @RequestMapping("/api/clientes/")
+@Api("Api Clientes")
 public class ClienteController {
 	
 	private ClientesRepo clientesrepo;
@@ -33,6 +39,11 @@ public class ClienteController {
 	}
 	
 	@GetMapping("{id}")
+	@ApiOperation("Obter detalhes de um cliente")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Cliente encontrado"),
+		@ApiResponse(code = 404, message = "Cliente não encontrado para o ID informado")
+	})
 	public Cliente getClienteById(@PathVariable Integer id ) {
 		return clientesrepo
 				.findById(id)
@@ -42,6 +53,11 @@ public class ClienteController {
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
+	@ApiOperation("Salva um novo cliente")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "Cliente salvo com sucesso"),
+		@ApiResponse(code = 400, message = "Erro de validação")
+	})
 	public Cliente save(@RequestBody @Valid Cliente cliente) {
 		return clientesrepo.save(cliente);		
 	}
